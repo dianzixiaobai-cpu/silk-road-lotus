@@ -1,4 +1,5 @@
-const VIDEO_ROOT = "assets/videos/";
+const VIDEO_ROOT = "https://cdn.jsdelivr.net/gh/dianzixiaobai-cpu/silk-road-lotus@main/assets/videos/";
+const POSTER_ROOT = "https://cdn.jsdelivr.net/gh/dianzixiaobai-cpu/silk-road-lotus@main/assets/posters/";
 const STORAGE_KEY = "silk-road-lotus-progress-v1";
 
 const prologuePages = [
@@ -270,7 +271,7 @@ function playSegment(file, destination, title) {
   state.segment = file;
   saveState();
   video.src = VIDEO_ROOT + file;
-  video.poster = `assets/posters/${file.replace(/\.mp4$/, ".jpg")}`;
+  video.poster = `${POSTER_ROOT}${file.replace(/\.mp4$/, ".jpg")}`;
   video.load();
   const promise = video.play();
   if (promise) promise.catch(() => showToast("点击画面继续播放"));
@@ -288,7 +289,7 @@ function showChoice(id) {
   $("watchStatus").hidden = true;
   $("endingPanel").hidden = true;
   $("chapterMark").textContent = chapterNames[id];
-  video.poster = `assets/posters/${id === 1 ? "intro" : `${id - 1}-b`}.jpg`;
+  video.poster = `${POSTER_ROOT}${id === 1 ? "intro" : `${id - 1}-b`}.jpg`;
   $("choiceIndex").textContent = `抉择${numerals[id - 1]}`;
   $("choiceLocation").textContent = data.location;
   $("choiceTitle").textContent = data.title;
@@ -328,7 +329,7 @@ function showEnding(id) {
   $("choicePanel").hidden = true;
   $("chapterMark").textContent = `结局${numerals[id - 1]} · ${data.title}`;
   const lastEntry = state.history[state.history.length - 1];
-  if (lastEntry) video.poster = `assets/posters/${lastEntry.choice}-${lastEntry.letter.toLowerCase()}.jpg`;
+  if (lastEntry) video.poster = `${POSTER_ROOT}${lastEntry.choice}-${lastEntry.letter.toLowerCase()}.jpg`;
   $("endingNumber").textContent = `结局${numerals[id - 1]} / 九`;
   $("endingStatus").textContent = data.trueEnding ? "莲心已明 · 和平之路" : "命运已落笔";
   $("endingTitle").textContent = data.title;
