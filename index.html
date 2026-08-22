@@ -16,7 +16,16 @@
 
     <header class="topbar">
       <button class="brand" id="homeButton" type="button" aria-label="返回游戏首页">
-        <span class="brand-seal">莲</span>
+        <span class="brand-seal" aria-hidden="true">
+          <svg viewBox="0 0 48 48" focusable="false">
+            <path class="seal-bowl" d="M11 27h26l-2.2 9.2c-.4 1.7-1.9 2.8-3.6 2.8H16.8c-1.7 0-3.2-1.1-3.6-2.8L11 27Z"/>
+            <path class="seal-rim" d="M9 25.5c0-1.4 1.1-2.5 2.5-2.5h25c1.4 0 2.5 1.1 2.5 2.5S37.9 28 36.5 28h-25C10.1 28 9 26.9 9 25.5Z"/>
+            <path class="seal-petal" d="M24 22c-5.8-2.2-8.1-6.4-6.8-10.5 4.7.7 7.1 4 6.8 10.5Z"/>
+            <path class="seal-petal" d="M24 22c5.8-2.2 8.1-6.4 6.8-10.5-4.7.7-7.1 4-6.8 10.5Z"/>
+            <path class="seal-petal seal-petal-center" d="M24 22c-2.9-4.8-1.9-8.6 0-11.5 1.9 2.9 2.9 6.7 0 11.5Z"/>
+            <path class="seal-water" d="M15 33.5c3.2 1.2 5.8 1.2 9 0s5.8-1.2 9 0"/>
+          </svg>
+        </span>
         <span><strong>丝路莲心</strong><small>生态和平互动影像</small></span>
       </button>
       <div class="chapter-mark" id="chapterMark">序章 · 玉门关</div>
@@ -35,9 +44,7 @@
     <section class="opening" id="opening" aria-labelledby="gameTitle">
       <div class="opening-backdrop"></div>
       <div class="opening-copy">
-        <p class="eyebrow">文化中国 · 生态文明互动叙事</p>
         <h1 id="gameTitle">丝路莲心</h1>
-        <p class="opening-subtitle">一只被误作兵势图的瓷盏，一条通往共生与和平的丝路。</p>
         <p class="role-line"><span>你的身份</span>大食商人 · 苏莱曼</p>
         <div class="opening-actions">
           <button class="primary-command" id="startButton" type="button"><span aria-hidden="true">▶</span>踏入大唐</button>
@@ -74,10 +81,6 @@
           <h2 id="prologueTitle">长风起，丝路未眠</h2>
           <p class="prologue-identity" id="prologueIdentity">大唐开元末至天宝初 · 河西走廊</p>
           <p class="prologue-description" id="prologueDescription"></p>
-          <div class="prologue-culture" id="prologueCulture">
-            <span>丝路见闻</span>
-            <p id="prologueCultureText"></p>
-          </div>
           <div class="prologue-actions">
             <button class="folio-button" id="prologuePrevButton" type="button" aria-label="上一页">‹</button>
             <div class="prologue-dots" id="prologueDots" aria-label="序章页码"></div>
@@ -100,7 +103,7 @@
         <span class="route-origin" aria-hidden="true">沙州</span>
         <div class="progress-buffer" id="progressBuffer"></div>
         <div class="progress-fill" id="progressFill"></div>
-        <span class="camel-marker" id="camelMarker" aria-hidden="true"><i>驼</i></span>
+        <span class="camel-marker" id="camelMarker" aria-hidden="true"><img src="assets/ui/camel-marker.svg" alt=""></span>
         <span class="yumen-gate" aria-hidden="true"><i></i><b id="routeDestination">玉门</b></span>
       </div>
       <time id="timeDisplay">00:00 / 00:00</time>

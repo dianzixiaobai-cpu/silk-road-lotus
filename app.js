@@ -1,10 +1,12 @@
 const VIDEO_ROOT = "https://cdn.jsdelivr.net/gh/dianzixiaobai-cpu/silk-road-lotus@main/assets/videos/";
 const POSTER_ROOT = "https://cdn.jsdelivr.net/gh/dianzixiaobai-cpu/silk-road-lotus@main/assets/posters/";
+const VIDEO_FALLBACK_ROOT = "https://dianzixiaobai-cpu.github.io/silk-road-lotus/assets/videos/";
 const STORAGE_KEY = "silk-road-lotus-progress-v1";
 
 const prologuePages = [
   {
-    kind: "background",
+    kind: "cover",
+    image: "assets/characters/sulaiman.png",
     kicker: "入卷 · 时代与行旅",
     title: "长风起，丝路未眠",
     identity: "大唐开元末至天宝初 · 河西走廊",
@@ -151,8 +153,8 @@ let state = loadState();
 let activeSegment = null;
 let pendingDestination = null;
 let toastTimer = null;
+let mediaLoadTimer = null;
 let prologueIndex = 0;
-let prologueTimer = null;
 
 function defaultState() { return { unlocked: [], history: [], currentChoice: 1, hasStarted: false, segment: null }; }
 function loadState() {
@@ -184,7 +186,6 @@ function openPrologue() {
 }
 
 function beginStory() {
-  clearTimeout(prologueTimer);
   $("prologue").hidden = true;
   state.hasStarted = true;
   saveState();
@@ -194,8 +195,8 @@ function beginStory() {
 function renderProloguePage() {
   const page = prologuePages[prologueIndex];
   const stage = $("prologueStage");
-  clearTimeout(prologueTimer);
   stage.classList.remove("page-arriving");
+  stage.classList.toggle("cover-page", page.kind === "cover");
   void stage.offsetWidth;
   stage.classList.add("page-arriving");
   $("prologueKicker").textContent = page.kicker;
@@ -203,7 +204,6 @@ function renderProloguePage() {
   $("prologueTitle").textContent = page.title;
   $("prologueIdentity").textContent = page.identity;
   $("prologueDescription").textContent = page.description;
-  $("prologueCultureText").textContent = page.culture;
   $("portraitInscription").textContent = page.inscription;
   const portrait = $("prologuePortrait");
   const landscape = $("prologueLandscape");
@@ -226,9 +226,6 @@ function renderProloguePage() {
     dot.classList.toggle("active", index === prologueIndex);
     dot.setAttribute("aria-current", index === prologueIndex ? "step" : "false");
   });
-  if (prologueIndex < prologuePages.length - 1) {
-    prologueTimer = setTimeout(() => changeProloguePage(1), 7000);
-  }
 }
 
 function changeProloguePage(delta) {
@@ -270,9 +267,21 @@ function playSegment(file, destination, title) {
   pendingDestination = destination;
   state.segment = file;
   saveState();
+  video.dataset.fallbackTried = "0";
+  clearTimeout(mediaLoadTimer);
   video.src = VIDEO_ROOT + file;
   video.poster = `${POSTER_ROOT}${file.replace(/\.mp4$/, ".jpg")}`;
   video.load();
+  mediaLoadTimer = setTimeout(() => {
+    if (activeSegment === file && video.readyState < 1 && video.dataset.fallbackTried !== "1") {
+      video.dataset.fallbackTried = "1";
+      video.src = VIDEO_FALLBACK_ROOT + file;
+      video.load();
+      const retry = video.play();
+      if (retry) retry.catch(() => showToast("请点击画面继续播放"));
+      showToast("正在切换备用线路");
+    }
+  }, 9000);
   const promise = video.play();
   if (promise) promise.catch(() => showToast("点击画面继续播放"));
 }
@@ -403,7 +412,6 @@ function closeDrawers() { $("timelineDrawer").hidden = true; $("galleryDrawer").
 
 function showHome() {
   video.pause();
-  clearTimeout(prologueTimer);
   closeDrawers();
   $("prologue").hidden = true;
   $("choicePanel").hidden = true;
@@ -440,15 +448,32 @@ function showToast(message) {
   toastTimer = setTimeout(() => { toast.hidden = true; }, 2400);
 }
 
+video.addEventListener("loadedmetadata", () => { clearTimeout(mediaLoadTimer); updateProgress(); });
 video.addEventListener("loadeddata", () => { $("loading").hidden = true; updateProgress(); });
+video.addEventListener("canplay", () => { if (!video.paused) $("loading").hidden = true; });
 video.addEventListener("waiting", () => { if (!video.paused) $("loading").hidden = false; });
+video.addEventListener("stalled", () => { if (!video.paused) $("loading").hidden = false; });
 video.addEventListener("playing", () => { $("loading").hidden = true; $("playButton").textContent = "Ⅱ"; });
 video.addEventListener("pause", () => { $("playButton").textContent = "▶"; });
 video.addEventListener("timeupdate", updateProgress);
 video.addEventListener("progress", updateProgress);
 video.addEventListener("ended", videoEnded);
 video.addEventListener("click", () => video.paused ? video.play() : video.pause());
-video.addEventListener("error", () => { $("loading").hidden = true; showToast("视频未能载入，请刷新页面重试"); });
+video.addEventListener("error", () => {
+  clearTimeout(mediaLoadTimer);
+  if (activeSegment && video.dataset.fallbackTried !== "1") {
+    video.dataset.fallbackTried = "1";
+    $("loading").hidden = false;
+    video.src = VIDEO_FALLBACK_ROOT + activeSegment;
+    video.load();
+    const retry = video.play();
+    if (retry) retry.catch(() => showToast("请点击画面继续播放"));
+    showToast("正在切换备用线路");
+    return;
+  }
+  $("loading").hidden = true;
+  showToast("视频未能载入，请刷新页面重试");
+});
 
 $("startButton").addEventListener("click", startNewJourney);
 $("continueButton").addEventListener("click", continueJourney);
