@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101a18">
+  <meta name="description" content="《丝路莲心》中华生态和平智慧互动影像游戏">
+  <title>丝路莲心｜中华生态和平智慧互动影像</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell" id="gameShell">
+    <video id="storyVideo" class="story-video" playsinline preload="metadata"></video>
+    <div class="video-shade" aria-hidden="true"></div>
+    <div class="silk-grain" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <button class="brand" id="homeButton" type="button" aria-label="返回游戏首页">
+        <span class="brand-seal">莲</span>
+        <span><strong>丝路莲心</strong><small>生态和平互动影像</small></span>
+      </button>
+      <div class="chapter-mark" id="chapterMark">序章 · 玉门关</div>
+      <div class="top-actions">
+        <button class="icon-button" id="timelineButton" type="button" title="命运水脉" aria-label="打开命运水脉">
+          <span aria-hidden="true">⌁</span><b id="timelineCount">0</b>
+        </button>
+        <button class="icon-button" id="galleryButton" type="button" title="莲心图鉴" aria-label="打开莲心图鉴">
+          <span aria-hidden="true">◉</span><b id="endingCount">0/9</b>
+        </button>
+        <button class="icon-button" id="soundButton" type="button" title="声音" aria-label="切换声音"><span aria-hidden="true">♪</span></button>
+        <button class="icon-button" id="fullscreenButton" type="button" title="全屏" aria-label="切换全屏"><span aria-hidden="true">⛶</span></button>
+      </div>
+    </header>
+
+    <section class="opening" id="opening" aria-labelledby="gameTitle">
+      <div class="opening-backdrop"></div>
+      <div class="opening-copy">
+        <p class="eyebrow">文化中国 · 生态文明互动叙事</p>
+        <h1 id="gameTitle">丝路莲心</h1>
+        <p class="opening-subtitle">一只被误作兵势图的瓷盏，一条通往共生与和平的丝路。</p>
+        <p class="role-line"><span>你的身份</span>大食商人 · 苏莱曼</p>
+        <div class="opening-actions">
+          <button class="primary-command" id="startButton" type="button"><span aria-hidden="true">▶</span>踏入大唐</button>
+          <button class="text-command" id="continueButton" type="button" hidden>续写上次旅程</button>
+        </div>
+        <p class="opening-meta">7次抉择 · 9种结局 · 你的判断，将改变丝路的命运</p>
+      </div>
+      <div class="next-hint" aria-hidden="true"><span></span>向下是千年丝路</div>
+    </section>
+
+    <section class="prologue" id="prologue" aria-labelledby="prologueTitle" hidden>
+      <div class="prologue-atmosphere" aria-hidden="true">
+        <span class="route-line route-line-one"></span>
+        <span class="route-line route-line-two"></span>
+      </div>
+      <button class="prologue-skip" id="prologueSkipButton" type="button">略过人物志，直接入关</button>
+
+      <div class="prologue-stage" id="prologueStage">
+        <div class="prologue-visual">
+          <div class="portrait-halo" aria-hidden="true"></div>
+          <img id="prologuePortrait" alt="" hidden>
+          <div class="prologue-landscape" id="prologueLandscape" aria-hidden="true">
+            <span class="sun-disc"></span>
+            <span class="dune dune-one"></span>
+            <span class="dune dune-two"></span>
+            <span class="distant-gate"></span>
+          </div>
+          <p class="portrait-inscription" id="portraitInscription"></p>
+        </div>
+
+        <div class="prologue-copy">
+          <p class="prologue-kicker" id="prologueKicker">入卷 · 时代与行旅</p>
+          <p class="prologue-count" id="prologueCount">壹 / 捌</p>
+          <h2 id="prologueTitle">长风起，丝路未眠</h2>
+          <p class="prologue-identity" id="prologueIdentity">大唐开元末至天宝初 · 河西走廊</p>
+          <p class="prologue-description" id="prologueDescription"></p>
+          <div class="prologue-culture" id="prologueCulture">
+            <span>丝路见闻</span>
+            <p id="prologueCultureText"></p>
+          </div>
+          <div class="prologue-actions">
+            <button class="folio-button" id="prologuePrevButton" type="button" aria-label="上一页">‹</button>
+            <div class="prologue-dots" id="prologueDots" aria-label="序章页码"></div>
+            <button class="folio-button" id="prologueNextButton" type="button" aria-label="下一页">›</button>
+            <button class="primary-command prologue-enter" id="prologueEnterButton" type="button" hidden>以苏莱曼之眼，入关</button>
+          </div>
+        </div>
+      </div>
+      <p class="prologue-note">人物身份仅呈现你在故事开始时所知 · 隐秘将在选择中逐渐显影</p>
+    </section>
+
+    <section class="watch-status" id="watchStatus" aria-live="polite" hidden>
+      <span class="watch-kicker">正在经历</span>
+      <strong id="watchTitle">序章 · 风起玉门</strong>
+    </section>
+
+    <div class="player-controls" id="playerControls" hidden>
+      <button class="control-button" id="playButton" type="button" aria-label="播放或暂停">Ⅱ</button>
+      <div class="progress-track" id="progressTrack" role="slider" aria-label="视频进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span class="route-origin" aria-hidden="true">沙州</span>
+        <div class="progress-buffer" id="progressBuffer"></div>
+        <div class="progress-fill" id="progressFill"></div>
+        <span class="camel-marker" id="camelMarker" aria-hidden="true"><i>驼</i></span>
+        <span class="yumen-gate" aria-hidden="true"><i></i><b id="routeDestination">玉门</b></span>
+      </div>
+      <time id="timeDisplay">00:00 / 00:00</time>
+      <button class="skip-button" id="skipButton" type="button">跳过本段 <span aria-hidden="true">›</span></button>
+    </div>
+
+    <section class="choice-panel" id="choicePanel" aria-live="polite" hidden>
+      <div class="choice-heading">
+        <span id="choiceIndex">抉择一</span>
+        <div><p id="choiceLocation">玉门关</p><h2 id="choiceTitle">关前的珍珠</h2></div>
+      </div>
+      <p class="choice-prompt" id="choicePrompt"></p>
+      <div class="choice-wisdom" aria-live="polite"><span>驿路箴言</span><p id="choiceWisdom"></p></div>
+      <div class="choice-list" id="choiceList"></div>
+      <p class="choice-footnote">没有标准答案。每一次选择，都在塑造你理解世界的方式。</p>
+    </section>
+
+    <section class="ending-panel" id="endingPanel" aria-live="polite" hidden>
+      <div class="ending-number" id="endingNumber">结局一</div>
+      <p class="ending-status" id="endingStatus">命运已落笔</p>
+      <h2 id="endingTitle">安稳余生</h2>
+      <p class="ending-summary" id="endingSummary"></p>
+      <blockquote id="endingQuote"></blockquote>
+      <p class="ending-reflection" id="endingReflection"></p>
+      <div class="ending-actions">
+        <button class="primary-command" id="rewindButton" type="button"><span aria-hidden="true">↶</span>回溯情节选择</button>
+        <button class="text-command" id="restartButton" type="button">从序章重走</button>
+        <button class="text-command" id="endingGalleryButton" type="button">查看莲心图鉴</button>
+      </div>
+    </section>
+
+    <aside class="drawer" id="timelineDrawer" aria-labelledby="timelineTitle" hidden>
+      <div class="drawer-header"><div><p>命运水脉</p><h2 id="timelineTitle">回到一次抉择</h2></div><button class="close-button" data-close="timelineDrawer" type="button" aria-label="关闭">×</button></div>
+      <p class="drawer-intro">水有来路，选择也有。点击已经历的节点，从那里重新书写后续命运。</p>
+      <div class="timeline-list" id="timelineList"></div>
+    </aside>
+
+    <aside class="drawer gallery-drawer" id="galleryDrawer" aria-labelledby="galleryTitle" hidden>
+      <div class="drawer-header"><div><p>莲心图鉴</p><h2 id="galleryTitle">九种丝路命运</h2></div><button class="close-button" data-close="galleryDrawer" type="button" aria-label="关闭">×</button></div>
+      <p class="drawer-intro">结局不会覆盖。每一次抵达，都会留在这张属于你的丝路图上。</p>
+      <div class="gallery-progress"><span id="galleryProgressText">已解锁 0 / 9</span><div><i id="galleryProgressBar"></i></div></div>
+      <div class="ending-grid" id="endingGrid"></div>
+    </aside>
+
+    <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+    <div class="loading" id="loading" hidden><span class="lotus-loader"><i></i><i></i><i></i><i></i><i></i></span><p>风沙正在翻开下一页……</p><button id="loadingSkipButton" type="button">网络较慢，直接进入抉择</button></div>
+    <div class="toast" id="toast" role="status" hidden></div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
