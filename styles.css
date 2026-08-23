@@ -125,7 +125,7 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 .progress-fill { background: linear-gradient(90deg, var(--celadon), var(--gold)); width: 0; box-shadow: 0 0 9px rgba(199,155,82,.45); }
 .route-origin { position: absolute; left: 0; top: -1px; color: rgba(241,231,207,.45); font-size: 8px; }
 .camel-marker { position: absolute; z-index: 2; left: var(--route-progress); top: 2px; width: 38px; height: 30px; transform: translateX(-50%); transition: left .12s linear; filter: drop-shadow(0 2px 5px rgba(0,0,0,.45)); }
-.camel-marker img { display: block; width: 100%; height: 100%; object-fit: contain; animation: camelWalk .8s ease-in-out infinite alternate; }
+.camel-marker svg { display: block; width: 100%; height: 100%; animation: camelWalk .8s ease-in-out infinite alternate; }
 .yumen-gate { position: absolute; z-index: 3; right: 0; top: 1px; display: grid; justify-items: center; width: 38px; color: rgba(241,231,207,.72); font-size: 8px; pointer-events: none; }
 .yumen-gate i { position: relative; display: block; width: 28px; height: 19px; border: 2px solid var(--silk-muted); border-bottom: 0; background: rgba(16,26,24,.86); }
 .yumen-gate i::before { content: ""; position: absolute; left: -5px; right: -5px; top: -5px; height: 3px; background: var(--silk-muted); box-shadow: 3px -3px 0 -1px var(--silk-muted), -3px -3px 0 -1px var(--silk-muted); }
