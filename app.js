@@ -154,6 +154,7 @@ let activeSegment = null;
 let pendingDestination = null;
 let toastTimer = null;
 let mediaLoadTimer = null;
+let glazeTimer = null;
 let prologueIndex = 0;
 
 function defaultState() { return { unlocked: [], history: [], currentChoice: 1, hasStarted: false, segment: null }; }
@@ -248,6 +249,34 @@ function createPrologueDots() {
   });
 }
 
+function createChoicePetals() {
+  const container = $("choicePetals");
+  if (!container || container.children.length) return;
+  for (let index = 0; index < 7; index += 1) {
+    const petal = document.createElement("span");
+    petal.className = "choice-petal";
+    container.appendChild(petal);
+  }
+}
+
+function updateChoicePetals(choiceId) {
+  const petals = [...document.querySelectorAll(".choice-petal")];
+  petals.forEach((petal, index) => {
+    petal.classList.toggle("active", index === choiceId - 1);
+    petal.classList.toggle("reached", index < choiceId - 1);
+  });
+  $("choiceProgressText").textContent = `${numerals[choiceId - 1]} / 七`;
+}
+
+function triggerGlaze() {
+  const shell = $("gameShell");
+  clearTimeout(glazeTimer);
+  shell.classList.remove("glaze-flow");
+  void shell.offsetWidth;
+  shell.classList.add("glaze-flow");
+  glazeTimer = setTimeout(() => shell.classList.remove("glaze-flow"), 900);
+}
+
 function continueJourney() {
   $("opening").hidden = true;
   showChoice(state.currentChoice || 1);
@@ -304,6 +333,7 @@ function showChoice(id) {
   $("choiceTitle").textContent = data.title;
   $("choicePrompt").textContent = data.prompt;
   $("choiceWisdom").textContent = choiceWisdom[id];
+  updateChoicePetals(id);
   const list = $("choiceList");
   list.style.setProperty("--choice-count", data.options.length);
   list.innerHTML = "";
@@ -319,12 +349,15 @@ function showChoice(id) {
 }
 
 function choose(choiceId, option) {
+  if ($("gameShell").classList.contains("glaze-flow")) return;
   state.history = state.history.filter((entry) => entry.choice < choiceId);
   state.history.push({ choice: choiceId, letter: option.letter, text: option.text });
   state.currentChoice = option.next || choiceId;
   saveState();
   const destination = option.ending ? { ending: option.ending } : { choice: option.next };
-  playSegment(option.video, destination, `${chapterNames[choiceId]} · 选择 ${option.letter}`);
+  document.querySelectorAll(".choice-option").forEach((button) => { button.disabled = true; });
+  triggerGlaze();
+  setTimeout(() => playSegment(option.video, destination, `${chapterNames[choiceId]} · 选择 ${option.letter}`), 360);
 }
 
 function showEnding(id) {
@@ -341,6 +374,8 @@ function showEnding(id) {
   if (lastEntry) video.poster = `${POSTER_ROOT}${lastEntry.choice}-${lastEntry.letter.toLowerCase()}.jpg`;
   $("endingNumber").textContent = `结局${numerals[id - 1]} / 九`;
   $("endingStatus").textContent = data.trueEnding ? "莲心已明 · 和平之路" : "命运已落笔";
+  const sealText = data.trueEnding ? "莲心" : data.title.slice(0, 2);
+  $("endingSeal").innerHTML = sealText.split("").join("<br>");
   $("endingTitle").textContent = data.title;
   $("endingSummary").textContent = data.summary;
   $("endingQuote").innerHTML = `“${data.quote}”<small>—— ${data.source}</small>`;
@@ -508,6 +543,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 createPrologueDots();
+createChoicePetals();
 updateCounters();
 renderGallery();
 

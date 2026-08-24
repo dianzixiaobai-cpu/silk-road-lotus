@@ -13,6 +13,11 @@
     <video id="storyVideo" class="story-video" playsinline preload="metadata"></video>
     <div class="video-shade" aria-hidden="true"></div>
     <div class="silk-grain" aria-hidden="true"></div>
+    <div class="corner-ornament corner-ornament-tl" aria-hidden="true"></div>
+    <div class="corner-ornament corner-ornament-tr" aria-hidden="true"></div>
+    <div class="corner-ornament corner-ornament-bl" aria-hidden="true"></div>
+    <div class="corner-ornament corner-ornament-br" aria-hidden="true"></div>
+    <div class="glaze-overlay" id="glazeOverlay" aria-hidden="true"><span></span></div>
 
     <header class="topbar">
       <button class="brand" id="homeButton" type="button" aria-label="返回游戏首页">
@@ -127,6 +132,11 @@
         <span id="choiceIndex">抉择一</span>
         <div><p id="choiceLocation">玉门关</p><h2 id="choiceTitle">关前的珍珠</h2></div>
       </div>
+      <div class="choice-progress" aria-label="七次抉择进度">
+        <span class="choice-progress-label">莲瓣进度</span>
+        <div class="choice-petals" id="choicePetals" aria-hidden="true"></div>
+        <span class="choice-progress-text" id="choiceProgressText">一 / 七</span>
+      </div>
       <p class="choice-prompt" id="choicePrompt"></p>
       <div class="choice-wisdom" aria-live="polite"><span>驿路箴言</span><p id="choiceWisdom"></p></div>
       <div class="choice-list" id="choiceList"></div>
@@ -134,6 +144,7 @@
     </section>
 
     <section class="ending-panel" id="endingPanel" aria-live="polite" hidden>
+      <div class="ending-seal" id="endingSeal" aria-hidden="true">莲<br>心</div>
       <div class="ending-number" id="endingNumber">结局一</div>
       <p class="ending-status" id="endingStatus">命运已落笔</p>
       <h2 id="endingTitle">安稳余生</h2>
