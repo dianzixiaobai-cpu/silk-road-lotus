@@ -407,8 +407,9 @@ function renderGallery() {
 }
 
 function openGallery() { renderGallery(); openDrawer("galleryDrawer"); }
+function openInfo() { openDrawer("infoDrawer"); }
 function openDrawer(id) { $(id).hidden = false; $("modalBackdrop").hidden = false; }
-function closeDrawers() { $("timelineDrawer").hidden = true; $("galleryDrawer").hidden = true; $("modalBackdrop").hidden = true; }
+function closeDrawers() { $("timelineDrawer").hidden = true; $("galleryDrawer").hidden = true; $("infoDrawer").hidden = true; $("modalBackdrop").hidden = true; }
 
 function showHome() {
   video.pause();
@@ -482,6 +483,7 @@ $("prologueEnterButton").addEventListener("click", beginStory);
 $("prologuePrevButton").addEventListener("click", () => changeProloguePage(-1));
 $("prologueNextButton").addEventListener("click", () => changeProloguePage(1));
 $("homeButton").addEventListener("click", showHome);
+$("infoButton").addEventListener("click", openInfo);
 $("timelineButton").addEventListener("click", openTimeline);
 $("galleryButton").addEventListener("click", openGallery);
 $("endingGalleryButton").addEventListener("click", openGallery);

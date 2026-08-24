@@ -30,6 +30,7 @@
       </button>
       <div class="chapter-mark" id="chapterMark">序章 · 玉门关</div>
       <div class="top-actions">
+        <button class="icon-button" id="infoButton" type="button" title="玩法说明" aria-label="打开玩法说明"><span aria-hidden="true">?</span></button>
         <button class="icon-button" id="timelineButton" type="button" title="命运水脉" aria-label="打开命运水脉">
           <span aria-hidden="true">⌁</span><b id="timelineCount">0</b>
         </button>
@@ -157,6 +158,18 @@
       <p class="drawer-intro">结局不会覆盖。每一次抵达，都会留在这张属于你的丝路图上。</p>
       <div class="gallery-progress"><span id="galleryProgressText">已解锁 0 / 9</span><div><i id="galleryProgressBar"></i></div></div>
       <div class="ending-grid" id="endingGrid"></div>
+    </aside>
+
+    <aside class="drawer info-drawer" id="infoDrawer" aria-labelledby="infoTitle" hidden>
+      <div class="drawer-header"><div><p>入关之前</p><h2 id="infoTitle">怎么玩</h2></div><button class="close-button" data-close="infoDrawer" type="button" aria-label="关闭">×</button></div>
+      <p class="drawer-intro">你不是旁观者，而是故事中的苏莱曼。每一次判断，都会改变下一段路。</p>
+      <ol class="how-to-list">
+        <li><b>01</b><div><strong>看一段</strong><span>以第一人称经历丝路现场。</span></div></li>
+        <li><b>02</b><div><strong>作选择</strong><span>在两难处决定你要相信什么。</span></div></li>
+        <li><b>03</b><div><strong>见后果</strong><span>选择进入不同视频分支与结局。</span></div></li>
+        <li><b>04</b><div><strong>再判断</strong><span>从命运水脉回溯，走另一条路。</span></div></li>
+      </ol>
+      <div class="info-principle"><span>水 · 青瓷 · 林木</span><p>不是背景，而是推动真相显影的线索。</p></div>
     </aside>
 
     <div class="modal-backdrop" id="modalBackdrop" hidden></div>
